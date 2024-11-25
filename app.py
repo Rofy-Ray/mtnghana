@@ -22,42 +22,79 @@ st.markdown("""
     .stApp {
         background-color: #1a1f2c;
     }
+    
+    /* Updated metric container with responsive spacing and height */
     .metric-container {
         background-color: #2d3748;
         border-radius: 8px;
         padding: 1.5rem;
         border: 1px solid #4a5568;
-        height: 180px;
+        min-height: 180px;  /* Changed from fixed height to min-height */
+        height: auto;       /* Allow container to grow */
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        margin-bottom: 1rem; /* Add spacing between cards when stacked */
+        overflow: hidden;    /* Prevent content overflow */
     }
+    
     .metric-title {
         color: #ffffff;
-        font-size: 1.25rem;
+        font-size: clamp(1rem, 3vw, 1.25rem); /* Responsive font size */
         font-weight: bold;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
     }
+    
     .metric-value {
         color: #ffffff;
         font-weight: bold;
         text-align: center;
-        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        font-size: clamp(1.25rem, 3vw, 2.5rem);
         line-height: 1.2;
         margin: 0.5rem 0;
+        word-break: break-word; /* Handle long numbers better */
     }
+    
+    /* Updated delta styling for better containment */
+    .metric-delta-positive,
+    .metric-delta-negative {
+        font-size: clamp(0.75rem, 2vw, 1rem);
+        display: block;
+        margin-top: 0.5rem;
+        padding: 0.25rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+    
     .metric-delta-positive {
         color: #4ADE80;
-        font-size: 1rem;
-        display: block;
-        margin-top: 0.5rem;
     }
+    
     .metric-delta-negative {
         color: #FF4D4D;
-        font-size: 1rem;
-        display: block;
-        margin-top: 0.5rem;
     }
+    
+    /* Add responsive grid gap */
+    .stColumn {
+        padding: 0.5rem !important;
+    }
+    
+    /* Adjust spacing for mobile */
+    @media screen and (max-width: 768px) {
+        .metric-container {
+            margin-bottom: 1rem;
+            min-height: 150px;  /* Slightly smaller on mobile */
+            padding: 1rem;
+        }
+        
+        .stColumn {
+            padding: 0.25rem !important;
+        }
+    }
+    
+    /* Rest of your existing styles remain unchanged */
     .stSelectbox [data-baseweb="select"] span {
         color: black !important;
     }
@@ -212,6 +249,7 @@ def create_agent_performance_chart(df: pd.DataFrame) -> go.Figure:
         )
         return fig
     
+    
     df_sorted = df.groupby('agentname').agg({
         'download': 'sum',
         'mau': 'sum'
@@ -223,7 +261,7 @@ def create_agent_performance_chart(df: pd.DataFrame) -> go.Figure:
         name='Downloads',
         x=df_sorted['agentname'],
         y=df_sorted['download'],
-        marker_color='#FFD700' 
+        marker_color='#FFD700'  
     ))
     
     fig.add_trace(go.Bar(
@@ -239,8 +277,13 @@ def create_agent_performance_chart(df: pd.DataFrame) -> go.Figure:
         paper_bgcolor='rgba(0,0,0,0)',
         font_color='#FFFFFF',
         height=400,
-        margin=dict(l=50, r=50, t=50, b=50),
+        margin=dict(l=50, r=50, t=80, b=50),
         legend=dict(
+            orientation="h",    
+            yanchor="bottom",  
+            y=1.15,          
+            xanchor="center", 
+            x=0.5,            
             bgcolor='rgba(0,0,0,0)',
             font=dict(color='#FFFFFF')
         ),
