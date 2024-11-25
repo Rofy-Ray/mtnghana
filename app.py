@@ -8,7 +8,7 @@ import numpy as np
 
 st.set_page_config(
     page_title="MTN Ghana Dashboard",
-    page_icon="images/mtnshort.png",
+    page_icon="	:chart_with_upwards_trend:",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items=None
@@ -321,7 +321,7 @@ def main():
     df = load_and_preprocess_data("./my_mtn.csv")
     
     with st.sidebar:
-        st.title("MTN Ghana Dashboard")
+        st.title("MyMTN Dashboard")
         st.header("Filters")
         
         business_units = ["All"] + sorted(df['salesbusinessunitname'].unique().tolist())
