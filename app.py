@@ -14,8 +14,8 @@ st.set_page_config(
     menu_items=None
 )
 
-st.logo(image="images/mtnlong.jpg", 
-        icon_image="images/mtnshort.png")
+st.logo(image="images/mtnlong.jpg",
+        size="large")
 
 st.markdown("""
     <style>
