@@ -3,7 +3,7 @@ from langchain_mistralai.chat_models import ChatMistralAI as Mistral
 from langchain.agents import AgentType, AgentExecutor
 from dotenv import load_dotenv
 import re
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from utils.plotting import extract_plot_image, fetch_plot_image
 
 load_dotenv()
