@@ -8,10 +8,13 @@ def load_and_preprocess_data(file_path: str) -> pd.DataFrame:
     df = pd.read_csv(file_path)
     df.columns = df.columns.str.lower()
     
-    date_columns = ['date', 'month', 'year']
-    for col in date_columns:
-        if col in df.columns:
-            df[col] = pd.to_datetime(df[col])
+    df['date_key'] = pd.to_datetime(df['date_key'], format='%Y%m%d')
+    
+    df['year'] = df['date_key'].dt.year
+    df['month'] = df['date_key'].dt.month
+    df['day'] = df['date_key'].dt.day
+    
+    df.set_index('date_key', inplace=True)
     
     text_columns = ['salesbusinessunitname', 'servicecentername', 'agentname']
     for col in text_columns:

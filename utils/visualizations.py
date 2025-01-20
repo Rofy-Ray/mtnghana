@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 import pandas as pd
 
-def create_agent_performance_chart(df: pd.DataFrame) -> go.Figure:
+def create_agent_performance_chart(df: pd.DataFrame, n_agents: int, direction: bool) -> go.Figure:
     """Create a double bar chart for agent performance with validation"""
     if df.empty:
         fig = go.Figure()
@@ -26,7 +26,7 @@ def create_agent_performance_chart(df: pd.DataFrame) -> go.Figure:
     df_sorted = df.groupby('agentname').agg({
         'download': 'sum',
         'mau': 'sum'
-    }).reset_index().sort_values('download', ascending=False).head(10)
+    }).reset_index().sort_values('download', ascending=direction).head(n_agents)
     
     fig = go.Figure()
     

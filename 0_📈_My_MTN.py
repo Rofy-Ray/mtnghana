@@ -10,7 +10,7 @@ from utils.visualizations import create_agent_performance_chart
 
 def main():
     st.set_page_config(
-        page_title="MTN Ghana Dashboard",
+        page_title="MyMTN Dashboard",
         page_icon=":chart_with_upwards_trend:",
         layout="wide",
         initial_sidebar_state="expanded",
@@ -21,7 +21,7 @@ def main():
     
     st.markdown(CSS_STYLES, unsafe_allow_html=True)
     
-    df = load_and_preprocess_data("data/my_mtn.csv")
+    df = load_and_preprocess_data("data/mymtn.csv")
     
     with st.sidebar:
         st.title("MyMTN Dashboard")
@@ -61,38 +61,34 @@ def main():
         cols[0],
         "YTD Achieved",
         ytd_achieved,
-        ytd_delta,
-        ytd_delta_pct,
         is_percentage=True
     )
     
     create_metric_card(
         cols[1],
         "Yearly Target",
-        yearly_target,
-        target_delta,
-        target_delta_pct
+        yearly_target
     )
     
     create_metric_card(
         cols[2],
         "Downloads",
-        downloads,
-        downloads_delta,
-        downloads_delta_pct
+        downloads
     )
     
     create_metric_card(
         cols[3],
         "MAU",
-        mau,
-        mau_delta,
-        mau_delta_pct
+        mau
     )
     
-    st.markdown('<div class="chart-title">Agent Performance</div>', unsafe_allow_html=True)
-    fig = create_agent_performance_chart(filtered_df)
-    st.plotly_chart(fig, use_container_width=True)
+    st.markdown('<div class="chart-title">Top 5 Agents Performance</div>', unsafe_allow_html=True)
+    fig_top = create_agent_performance_chart(filtered_df, n_agents=5, direction=False)
+    st.plotly_chart(fig_top, use_container_width=True)
+
+    st.markdown('<div class="chart-title">Bottom 5 Agents Performance</div>', unsafe_allow_html=True)
+    fig_bottom = create_agent_performance_chart(filtered_df, n_agents=5, direction=True)
+    st.plotly_chart(fig_bottom, use_container_width=True)
 
 if __name__ == "__main__":
     main()
