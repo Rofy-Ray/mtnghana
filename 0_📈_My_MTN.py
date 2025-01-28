@@ -84,11 +84,11 @@ def main():
     
     st.markdown('<div class="chart-title">Top 5 Agents Performance</div>', unsafe_allow_html=True)
     fig_top = create_agent_performance_chart(filtered_df, n_agents=5, direction=False)
-    st.plotly_chart(fig_top, use_container_width=True)
+    st.plotly_chart(fig_top, use_container_width=True, key="top_agents")
 
     st.markdown('<div class="chart-title">Bottom 5 Agents Performance</div>', unsafe_allow_html=True)
     fig_bottom = create_agent_performance_chart(filtered_df, n_agents=5, direction=True)
-    st.plotly_chart(fig_bottom, use_container_width=True)
+    st.plotly_chart(fig_bottom, use_container_width=True, key="bottom_agents")
 
 if __name__ == "__main__":
     main()

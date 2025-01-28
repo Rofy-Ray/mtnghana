@@ -3,8 +3,8 @@ import streamlit.components.v1 as components
 from config.styles import CSS_STYLES
 import base64
 import os
-from utils.data_processing import load_and_preprocess_data
-from utils.pandasai_agent import create_pandasai_agent, handle_agent_response
+from utils.data_processing import load_and_preprocess_data, create_sql_db_from_df
+from utils.sql_agent import generate_response
 
 def initialize_chat_history():
     if "messages" not in st.session_state:
@@ -43,16 +43,15 @@ def main():
     
     with st.sidebar:
         st.title("Y'ello Agent:bee:")
-        st.markdown("""I'm here to help you analyze your data. 
-                I can help you anaswer questions, generate reports, and more.
+        st.markdown("""I'm here to help you with your data queries. 
+                I can help answer questions about your data.
                 Feel free to ask me anything about your data!""")
         
     st.title("Welcome! I'm Y'ello Agent!:bee:")
     
     initialize_chat_history()
     df = load_and_preprocess_data("data/mymtn.csv")
-    if "agent" not in st.session_state:
-        st.session_state.agent = create_pandasai_agent(df)
+    create_sql_db_from_df(df)
     
     chat_container = st.container()
     with chat_container:
@@ -76,18 +75,12 @@ def main():
         
         if submitted and user_input:
             st.session_state.messages.append({"role": "user", "content": user_input})
-            response = handle_agent_response(st.session_state.agent, user_input)
-            if isinstance(response, dict) and 'plot' in response:
+            response = generate_response(user_input)
+            if response:
                 st.session_state.messages.append({
-                    "role": "assistant", 
-                    "content": response['text']
-                })
-                st.image(response['plot'])
-            else:
-                st.session_state.messages.append({
-                    "role": "assistant", 
-                    "content": response['text']
-                })
+                        "role": "assistant", 
+                        "content": response
+                    })
             st.rerun()
     
     components.html("""

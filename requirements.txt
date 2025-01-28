@@ -1,7 +1,7 @@
 streamlit
 pandas
 plotly
+SQLAlchemy
 langchain
+langchain-community
 langchain-mistralai
-langchain-experimental
-tabulate
