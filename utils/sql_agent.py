@@ -6,27 +6,34 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from operator import itemgetter
+import os
 import httpx
-from langchain_mistralai import ChatMistralAI
-
+import langchain
 import logging
 from dotenv import load_dotenv
+from langchain_openai import ChatOpenAI
 
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 
-import langchain
-langchain.debug = False
+langchain.debug = True
+
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 
 db_path = f"sqlite:///data/mymtn.db"
 
+
 def init_llm():
-    llm = ChatMistralAI(
-        model="open-codestral-mamba",
-        temperature=0,
+    llm = ChatOpenAI(
+        model="gpt-3.5-turbo",
+        temperature=0.0,
+        max_tokens=None,
+        timeout=None,
+        max_retries=2,
     )
     return llm
+
 
 system_role = """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
                 Question: {question}
@@ -37,6 +44,7 @@ system_role = """Given the following user question, corresponding SQL query, and
 
 llm = init_llm()
 db = SQLDatabase.from_uri(db_path)
+
 
 def generate_response(user_message):
     """

@@ -4,4 +4,4 @@ plotly
 SQLAlchemy
 langchain
 langchain-community
-langchain-mistralai
+langchain-openai
