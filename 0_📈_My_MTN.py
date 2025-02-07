@@ -1,27 +1,31 @@
 import streamlit as st
+st.set_page_config(
+    page_title="MyMTN Dashboard",
+    page_icon=":chart_with_upwards_trend:",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items=None
+)
 from config.styles import CSS_STYLES
-from utils.data_processing import load_and_preprocess_data, filter_dataframe
+from utils.data_processing import load_and_preprocess_data, filter_dataframe, create_dataset
 from utils.metrics import (calculate_ytd_metrics, 
                             calculate_yearly_target,
                             calculate_downloads_metrics, 
                             calculate_mau_metrics,
                             create_metric_card)
 from utils.visualizations import create_agent_performance_chart
+import os
 
 def main():
-    st.set_page_config(
-        page_title="MyMTN Dashboard",
-        page_icon=":chart_with_upwards_trend:",
-        layout="wide",
-        initial_sidebar_state="expanded",
-        menu_items=None
-    )
-    
     st.logo(image="images/mtnlong.jpg", size="large")
     
     st.markdown(CSS_STYLES, unsafe_allow_html=True)
     
     df = load_and_preprocess_data("data/mymtn.csv")
+    
+    dataset_path = "mtnghana/mymtn"
+    if not os.path.exists(os.path.join("datasets", dataset_path)) or not os.path.isfile(os.path.join("datasets", dataset_path, 'data.parquet')):
+        create_dataset(df)
     
     with st.sidebar:
         st.title("MyMTN Dashboard")

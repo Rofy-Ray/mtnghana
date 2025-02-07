@@ -18,6 +18,7 @@ CSS_STYLES = """
             margin: 0px 7px;
             max-width: 70%;
             border-radius: 10px;
+            overflow-x: auto;
         }
         .user-bubble {
             background-color: #FFF;
@@ -132,6 +133,34 @@ CSS_STYLES = """
             font-size: 1.5rem;
             font-weight: bold;
             margin: 2rem 0 1rem 0;
+        }
+        .chat-bubble img {
+            border-radius: 10px;
+            margin: 5px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .styled-table {
+            border-collapse: collapse;
+            margin: 1rem 0;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #fff;
+        }
+        .styled-table thead tr {
+            background-color: #FECA05;
+            color: #000;
+            text-align: left;
+        }
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #ddd;
+            color: #000;
+        }
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 1px solid #fff;
         }
     </style>
 """

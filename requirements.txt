@@ -1,7 +1,5 @@
 streamlit
 pandas
 plotly
-SQLAlchemy
-langchain
-langchain-community
-langchain-openai
+pandasai
+pandasai-openai
